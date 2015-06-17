@@ -7,7 +7,7 @@ class Conexao {
 		try {
 			$connection_string = "host=localhost ".
 								"port=5432 ".
-								"dbname=estacionamento ".
+								"dbname=postgres ".
 								"user=postgres ".
 								"password=postgres";
 			

@@ -1,9 +1,16 @@
 <?php
 class Funcionario{
-	private $login, $senha, $is_admin;
+	private $login, $senha, $is_admin, $id;
 	public function __construct($login, $senha, $is_admin){
 		$this->setLogin($login);
 		$this->setSenha($senha);
+		$this->is_admin = $is_admin;
+	}
+
+	public function __construct($login, $senha, $is_admin, $id){
+		$this->setLogin($login);
+		$this->setSenha($senha);
+		$this->setId($id);
 		$this->is_admin = $is_admin;
 	}
 
@@ -13,6 +20,14 @@ class Funcionario{
 
 	public function getSenha(){
 		return $this->senha;
+	}
+
+	public function getId(){
+		return $this->senha;
+	}
+
+	public function setId($id){
+		$this->id = (int)$id;
 	}
 
 	public function setLogin($login){
