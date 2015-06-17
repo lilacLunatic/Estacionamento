@@ -1,0 +1,695 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.3.5
+-- Dumped by pg_dump version 9.3.5
+-- Started on 2015-06-17 14:51:50 BRT
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+SET search_path = public, pg_catalog;
+
+--
+-- TOC entry 201 (class 1255 OID 34299)
+-- Name: altera_salario(integer, numeric); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION altera_salario(integer, numeric) RETURNS boolean
+    LANGUAGE plpgsql
+    AS $_$
+declare
+v_nome func.nome%type;
+v_salario func.salario%type;
+p_codigo alias for $1;
+p_aumento alias for $2;
+begin
+select into v_nome,v_salario nome,salario from func where codigo=p_codigo;
+raise notice'nome:%',v_nome;
+raise notice'salario atual:%',v_salario;
+v_salario:=v_salario+p_aumento;
+raise notice'novo salario:%',v_salario;
+update func set salario=v_salario where codigo=p_codigo;
+return 't';
+end;
+$_$;
+
+
+ALTER FUNCTION public.altera_salario(integer, numeric) OWNER TO postgres;
+
+--
+-- TOC entry 204 (class 1255 OID 34306)
+-- Name: contador_cli(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION contador_cli() RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+registro record;
+qtde integer;
+begin
+qtde:=0;
+for registro in select * from func loop
+qtde:=qtde+1;
+raise notice 'nome:%,salario:%,codigo:%',registro.nome,registro.salario,registro.codigo;
+end loop;
+return qtde;
+end;
+$$;
+
+
+ALTER FUNCTION public.contador_cli() OWNER TO postgres;
+
+--
+-- TOC entry 202 (class 1255 OID 34300)
+-- Name: fatorial(integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION fatorial(integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $_$
+
+declare
+
+arg integer;
+
+begin
+
+arg := $1;
+
+if arg is null or arg < 0 then
+
+raise notice 'valor inválido!';
+
+return null;
+
+else
+
+if arg = 1 then
+
+return 1;
+
+else
+
+declare
+
+next_value integer;
+
+begin
+
+next_value := fatorial(arg-1)*arg;
+
+return next_value;
+
+end;
+
+end if;
+
+end if;
+
+end;
+
+$_$;
+
+
+ALTER FUNCTION public.fatorial(integer) OWNER TO postgres;
+
+--
+-- TOC entry 203 (class 1255 OID 34301)
+-- Name: fatorial2(integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION fatorial2(integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $_$
+declare
+arg integer;
+begin
+arg := $1;
+if arg is null or arg < 0 then
+raise notice 'valor invalido';
+return null;
+else
+if arg = 1 then
+return 1;
+else
+declare
+next_value integer;
+begin
+next_value:=fatorial(arg-1)*arg;
+return next_value;
+end;
+end if;
+end if;
+end;
+$_$;
+
+
+ALTER FUNCTION public.fatorial2(integer) OWNER TO postgres;
+
+--
+-- TOC entry 193 (class 1255 OID 34289)
+-- Name: media(numeric, numeric); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION media(numeric, numeric) RETURNS numeric
+    LANGUAGE plpgsql
+    AS $_$
+declare
+result numeric;
+begin
+result:=($1+$2)/2;
+return result;
+end;
+$_$;
+
+
+ALTER FUNCTION public.media(numeric, numeric) OWNER TO postgres;
+
+--
+-- TOC entry 200 (class 1255 OID 34290)
+-- Name: media(numeric, numeric, numeric); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION media(numeric, numeric, numeric) RETURNS numeric
+    LANGUAGE plpgsql
+    AS $_$
+declare
+result numeric;
+begin
+result:=($4+$5+$6)/3;
+return result;
+end;
+$_$;
+
+
+ALTER FUNCTION public.media(numeric, numeric, numeric) OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 181 (class 1259 OID 34392)
+-- Name: admin; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE admin (
+    id integer NOT NULL,
+    login character varying NOT NULL,
+    senha character varying
+);
+
+
+ALTER TABLE public.admin OWNER TO postgres;
+
+--
+-- TOC entry 180 (class 1259 OID 34390)
+-- Name: admin_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE admin_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.admin_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2064 (class 0 OID 0)
+-- Dependencies: 180
+-- Name: admin_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE admin_id_seq OWNED BY admin.id;
+
+
+--
+-- TOC entry 185 (class 1259 OID 34479)
+-- Name: entrada; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE entrada (
+    id integer NOT NULL,
+    hora_entrada timestamp without time zone,
+    hora_saida timestamp without time zone,
+    placa_veiculo character varying,
+    valor money,
+    andar_vaga integer,
+    numero_vaga integer
+);
+
+
+ALTER TABLE public.entrada OWNER TO postgres;
+
+--
+-- TOC entry 184 (class 1259 OID 34477)
+-- Name: entrada_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE entrada_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.entrada_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2065 (class 0 OID 0)
+-- Dependencies: 184
+-- Name: entrada_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE entrada_id_seq OWNED BY entrada.id;
+
+
+--
+-- TOC entry 183 (class 1259 OID 34403)
+-- Name: funcionario; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE funcionario (
+    id integer NOT NULL,
+    login character varying NOT NULL,
+    senha character varying
+);
+
+
+ALTER TABLE public.funcionario OWNER TO postgres;
+
+--
+-- TOC entry 182 (class 1259 OID 34401)
+-- Name: funcionario_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE funcionario_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.funcionario_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2066 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: funcionario_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE funcionario_id_seq OWNED BY funcionario.id;
+
+
+--
+-- TOC entry 179 (class 1259 OID 34347)
+-- Name: preco; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE preco (
+    id integer NOT NULL,
+    valor money,
+    tipo integer
+);
+
+
+ALTER TABLE public.preco OWNER TO postgres;
+
+--
+-- TOC entry 178 (class 1259 OID 34345)
+-- Name: preco_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE preco_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.preco_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2067 (class 0 OID 0)
+-- Dependencies: 178
+-- Name: preco_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE preco_id_seq OWNED BY preco.id;
+
+
+--
+-- TOC entry 176 (class 1259 OID 34326)
+-- Name: tipo; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE tipo (
+    id integer NOT NULL,
+    nome character varying
+);
+
+
+ALTER TABLE public.tipo OWNER TO postgres;
+
+--
+-- TOC entry 175 (class 1259 OID 34324)
+-- Name: tipo_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE tipo_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tipo_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2068 (class 0 OID 0)
+-- Dependencies: 175
+-- Name: tipo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE tipo_id_seq OWNED BY tipo.id;
+
+
+--
+-- TOC entry 177 (class 1259 OID 34335)
+-- Name: vaga; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE vaga (
+    andar integer NOT NULL,
+    numero integer NOT NULL,
+    tipo_vaga integer
+);
+
+
+ALTER TABLE public.vaga OWNER TO postgres;
+
+--
+-- TOC entry 174 (class 1259 OID 34315)
+-- Name: veiculo; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE veiculo (
+    placa character varying(8) NOT NULL,
+    tipo integer,
+    marca character varying,
+    modelo character varying,
+    cor character varying,
+    CONSTRAINT veiculo_placa_fmt CHECK (((placa)::text ~ '[A-Z]{3}-[0-9]{4}'::text))
+);
+
+
+ALTER TABLE public.veiculo OWNER TO postgres;
+
+--
+-- TOC entry 1917 (class 2604 OID 34395)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY admin ALTER COLUMN id SET DEFAULT nextval('admin_id_seq'::regclass);
+
+
+--
+-- TOC entry 1919 (class 2604 OID 34482)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY entrada ALTER COLUMN id SET DEFAULT nextval('entrada_id_seq'::regclass);
+
+
+--
+-- TOC entry 1918 (class 2604 OID 34406)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY funcionario ALTER COLUMN id SET DEFAULT nextval('funcionario_id_seq'::regclass);
+
+
+--
+-- TOC entry 1916 (class 2604 OID 34350)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY preco ALTER COLUMN id SET DEFAULT nextval('preco_id_seq'::regclass);
+
+
+--
+-- TOC entry 1915 (class 2604 OID 34329)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tipo ALTER COLUMN id SET DEFAULT nextval('tipo_id_seq'::regclass);
+
+
+--
+-- TOC entry 2053 (class 0 OID 34392)
+-- Dependencies: 181
+-- Data for Name: admin; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO admin (id, login, senha) VALUES (1, 'admin', '123');
+
+
+--
+-- TOC entry 2069 (class 0 OID 0)
+-- Dependencies: 180
+-- Name: admin_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('admin_id_seq', 1, true);
+
+
+--
+-- TOC entry 2057 (class 0 OID 34479)
+-- Dependencies: 185
+-- Data for Name: entrada; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2070 (class 0 OID 0)
+-- Dependencies: 184
+-- Name: entrada_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('entrada_id_seq', 1, false);
+
+
+--
+-- TOC entry 2055 (class 0 OID 34403)
+-- Dependencies: 183
+-- Data for Name: funcionario; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO funcionario (id, login, senha) VALUES (1, 'funcionario', '123');
+
+
+--
+-- TOC entry 2071 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: funcionario_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('funcionario_id_seq', 1, true);
+
+
+--
+-- TOC entry 2051 (class 0 OID 34347)
+-- Dependencies: 179
+-- Data for Name: preco; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2072 (class 0 OID 0)
+-- Dependencies: 178
+-- Name: preco_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('preco_id_seq', 1, false);
+
+
+--
+-- TOC entry 2048 (class 0 OID 34326)
+-- Dependencies: 176
+-- Data for Name: tipo; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO tipo (id, nome) VALUES (1, 'Carro');
+INSERT INTO tipo (id, nome) VALUES (2, 'Moto');
+INSERT INTO tipo (id, nome) VALUES (3, 'Utilitario');
+
+
+--
+-- TOC entry 2073 (class 0 OID 0)
+-- Dependencies: 175
+-- Name: tipo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('tipo_id_seq', 3, true);
+
+
+--
+-- TOC entry 2049 (class 0 OID 34335)
+-- Dependencies: 177
+-- Data for Name: vaga; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2046 (class 0 OID 34315)
+-- Dependencies: 174
+-- Data for Name: veiculo; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO veiculo (placa, tipo, marca, modelo, cor) VALUES ('ABC-1234', 1, 'Honda', '2013', 'Agouti');
+INSERT INTO veiculo (placa, tipo, marca, modelo, cor) VALUES ('CDE-5555', 2, 'smt', '2000', 'avc');
+
+
+--
+-- TOC entry 1929 (class 2606 OID 34400)
+-- Name: admin_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY admin
+    ADD CONSTRAINT admin_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1933 (class 2606 OID 34487)
+-- Name: entrada_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY entrada
+    ADD CONSTRAINT entrada_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1931 (class 2606 OID 34411)
+-- Name: funcionario_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY funcionario
+    ADD CONSTRAINT funcionario_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1927 (class 2606 OID 34352)
+-- Name: preco_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY preco
+    ADD CONSTRAINT preco_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1923 (class 2606 OID 34334)
+-- Name: tipo_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY tipo
+    ADD CONSTRAINT tipo_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1925 (class 2606 OID 34339)
+-- Name: vaga_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY vaga
+    ADD CONSTRAINT vaga_pkey PRIMARY KEY (andar, numero);
+
+
+--
+-- TOC entry 1921 (class 2606 OID 34322)
+-- Name: veiculo_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY veiculo
+    ADD CONSTRAINT veiculo_pkey PRIMARY KEY (placa);
+
+
+--
+-- TOC entry 1938 (class 2606 OID 34493)
+-- Name: entrada_andar_vaga_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY entrada
+    ADD CONSTRAINT entrada_andar_vaga_fkey FOREIGN KEY (andar_vaga, numero_vaga) REFERENCES vaga(andar, numero);
+
+
+--
+-- TOC entry 1937 (class 2606 OID 34488)
+-- Name: entrada_placa_veiculo_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY entrada
+    ADD CONSTRAINT entrada_placa_veiculo_fkey FOREIGN KEY (placa_veiculo) REFERENCES veiculo(placa);
+
+
+--
+-- TOC entry 1936 (class 2606 OID 34353)
+-- Name: preco_tipo_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY preco
+    ADD CONSTRAINT preco_tipo_fkey FOREIGN KEY (tipo) REFERENCES tipo(id);
+
+
+--
+-- TOC entry 1934 (class 2606 OID 34498)
+-- Name: tipo_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY veiculo
+    ADD CONSTRAINT tipo_fkey FOREIGN KEY (tipo) REFERENCES tipo(id);
+
+
+--
+-- TOC entry 1935 (class 2606 OID 34340)
+-- Name: vaga_tipo_vaga_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY vaga
+    ADD CONSTRAINT vaga_tipo_vaga_fkey FOREIGN KEY (tipo_vaga) REFERENCES tipo(id);
+
+
+--
+-- TOC entry 2063 (class 0 OID 0)
+-- Dependencies: 6
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2015-06-17 14:51:50 BRT
+
+--
+-- PostgreSQL database dump complete
+--
+
