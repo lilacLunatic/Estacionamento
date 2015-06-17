@@ -1,13 +1,8 @@
 <?php
 class Funcionario{
 	private $login, $senha, $is_admin, $id;
-	public function __construct($login, $senha, $is_admin){
-		$this->setLogin($login);
-		$this->setSenha($senha);
-		$this->is_admin = $is_admin;
-	}
 
-	public function __construct($login, $senha, $is_admin, $id){
+	public function __construct($login, $senha, $is_admin, $id=0){
 		$this->setLogin($login);
 		$this->setSenha($senha);
 		$this->setId($id);

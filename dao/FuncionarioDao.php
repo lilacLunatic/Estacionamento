@@ -1,15 +1,15 @@
 <?php
-include "../lib/conexao.php";
-include "../model/Funcionario.php";
+include_once "../lib/conexao.php";
+include_once "../model/Funcionario.php";
 class FuncionarioDao{
 	public function add($funcionario){
-		$query = "insert into (login, senha, admin) values ($1, $2, $3)";
+		$query = "insert into funcionario (login, senha, admin) values ($1, $2, $3)";
 		
 		$params = Array($funcionario->getLogin(), $funcionario->getSenha(), $funcionario->isAdmin());
 
 		$conexao = new Conexao();
 		$connection = $conexao->getConexao();
-		pg_query_params($conexao, $query, $params);
+		pg_query_params($connection, $query, $params);
 		$conexao->closeConexao();
 	}
 
@@ -19,7 +19,7 @@ class FuncionarioDao{
 
 		$conexao = new Conexao();
 		$connection = $conexao->getConexao();
-		$result = pg_query_params($conexao, $query, $params);
+		$result = pg_query_params($connection, $query, $params);
 		$conexao->closeConexao();
 
 		$funcionarioArray = pg_fetch_array($result);
@@ -39,7 +39,7 @@ class FuncionarioDao{
 
 		$conexao = new Conexao();
 		$connection = $conexao->getConexao();
-		$result = pg_query_params($conexao, $query, $params);
+		$result = pg_query_params($connection, $query, $params);
 		$conexao->closeConexao();
 
 		$funcionarioArray = pg_fetch_array($result);
@@ -57,10 +57,10 @@ class FuncionarioDao{
 		$query = "select * from funcionario where login = $1 and senha = $2 and admin = $3";
 
 		$params = Array($login, $senha, $isAdmin ? 't' : 'f');
-
+		print_r($params);
 		$conexao = new Conexao();
 		$connection = $conexao->getConexao();
-		$result = pg_query_params($conexao, $query, $params);
+		$result = pg_query_params($connection, $query, $params);
 		$conexao->closeConexao();
 
 		$funcionarioArray = pg_fetch_array($result);
@@ -68,10 +68,10 @@ class FuncionarioDao{
 		return !empty($funcionarioArray);
 	}
 }
-/*
+
 $joao = new Funcionario("joao123", "mango", true);
 
 echo $joao->getLogin() . " " . $joao->getSenha() . " " . ($joao->isAdmin() ? 1 : 0) . "\n";
 
-(new FuncionarioDao())->add($joao);*/
+(new FuncionarioDao())->add($joao);
 ?>
