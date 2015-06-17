@@ -35,7 +35,7 @@ class FuncionarioDao{
 
 	public function getByLogin($login){
 		$query = "select * from funcionario where login = $1";
-		$params = Array($id);
+		$params = Array($login);
 
 		$conexao = new Conexao();
 		$connection = $conexao->getConexao();
@@ -51,6 +51,21 @@ class FuncionarioDao{
 			$funcionarioArray['id']);
 
 		return $funcionario;
+	}
+
+	public function autentica($login, $senha, $isAdmin){
+		$query = "select * from funcionario where login = $1 and senha = $2 and admin = $3";
+
+		$params = Array($login, $senha, $isAdmin ? 't' : 'f');
+
+		$conexao = new Conexao();
+		$connection = $conexao->getConexao();
+		$result = pg_query_params($conexao, $query, $params);
+		$conexao->closeConexao();
+
+		$funcionarioArray = pg_fetch_array($result);
+
+		return !empty($funcionarioArray);
 	}
 }
 /*
