@@ -23,15 +23,21 @@ class VeiculoDao{
 		$conexao->closeConexao();
 
 		$veiculoArray = pg_fetch_array($result);
+		print_r($veiculoArray);
+		if(empty($veiculoArray)){
+			return null;
+		}else{
 
-		$veiculo = new Veiculo(
-			$veiculoArray['placa'],
-			$veiculoArray['tipo'],
-			$veiculoArray['marca'],
-			$veiculoArray['modelo'],
-			$veiculoArray['cor']);
 
-		return $veiculo;
+			$veiculo = new Veiculo(
+				$veiculoArray['placa'],
+				$veiculoArray['tipo'],
+				$veiculoArray['marca'],
+				$veiculoArray['modelo'],
+				$veiculoArray['cor']);
+
+			return $veiculo;
+		}
 	}
 
 
