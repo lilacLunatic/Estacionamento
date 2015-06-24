@@ -49,6 +49,14 @@ class VeiculoDao extends Dao{
 		}
 	}
 
+	public function saidaVeiculo($veiculo){
+		$query = "update entrada set hora_saida = ? where placa_veiculo = ? and hora_saida is null";
+		$now = date('d/m/Y H:i:s');
+		$params = Array($now, $veiculo['placa']);
+		parent::daoExecuteQuery($query, $params);
+		
+	}
+
 }
 /*
 $joao = new Funcionario("joao123", "mango", true);
