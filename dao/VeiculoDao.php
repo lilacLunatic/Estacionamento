@@ -14,19 +14,11 @@ class VeiculoDao extends Dao{
 		$query = "select * from veiculo where placa = $1";
 		$params = Array($placa);
 
-
-		$conexao = new Conexao();
-		$connection = $conexao->getConexao();
-		$result = pg_query_params($conexao, $query, $params);
-		$conexao->closeConexao();
-
-		$veiculoArray = pg_fetch_array($result);
+		$veiculoArray = parent::daoFetchArray($query, $params);
 		print_r($veiculoArray);
 		if(empty($veiculoArray)){
 			return null;
 		}else{
-
-		$veiculoArray = daoFetchArray($query, $params)
 			$veiculo = new Veiculo(
 				$veiculoArray['placa'],
 				$veiculoArray['tipo'],
