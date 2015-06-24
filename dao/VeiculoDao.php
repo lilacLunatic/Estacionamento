@@ -37,6 +37,18 @@ class VeiculoDao extends Dao{
 		return parent::daoFetchAll($query);
 	}
 
+	public function checaEntrada($placa){
+		$query = "select * from entrada where placa_veiculo = ? and hora_saida is null";
+		//$now = date('d/m/Y H:i:s');
+		$params = Array($placa);
+		$result = parent::daoFetchAll($query, $params);
+		if(is_null($result)){
+			return false;
+		}else{
+			return true;
+		}
+	}
+
 }
 /*
 $joao = new Funcionario("joao123", "mango", true);
