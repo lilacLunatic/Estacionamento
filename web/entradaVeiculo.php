@@ -5,10 +5,10 @@
 	include "../dao/VeiculoDao.php";
     $veiculoDao = new VeiculoDao();
     $veiculo = $veiculoDao->getByPlaca($_SESSION['placa']);
-    echo $veiculo['placa'];
+    echo $veiculo->getPlaca();
     if(!is_null($veiculo)){
 
-        if($veiculoDao->checkEntrada($_SESSION['placa'])){
+        if($veiculoDao->checaEntrada($_SESSION['placa'])){
             $veiculoDao->saidaVeiculo($veiculo);
         }else{
             //logica do veiculo entrando aqui
