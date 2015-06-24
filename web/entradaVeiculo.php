@@ -9,13 +9,7 @@
         if($veiculoDao->checaEntrada($_SESSION['placa'])){
             $veiculoDao->saidaVeiculo($veiculo);
         }else{
-<<<<<<< HEAD
-            
-            //$veiculoDao->entradaVeiculo($veiculo);
-
-=======
             $veiculoDao->entradaVeiculo($veiculo);
->>>>>>> 6dd2627a2cc8fe8bb7faf9bebfa5b1aef5d0bd10
         }
     
     }else{

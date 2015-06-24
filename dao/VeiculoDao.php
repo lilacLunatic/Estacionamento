@@ -41,7 +41,7 @@ class VeiculoDao extends Dao{
 		//$now = date('d/m/Y H:i:s');
 		$params = Array($placa);
 		$result = parent::daoFetchAll($query, $params);
-		if(empty($result) || is_null($result)){
+		if(is_null($result)){
 			return false;
 		}else{
 			return true;
@@ -59,11 +59,7 @@ class VeiculoDao extends Dao{
 	public function entradaVeiculo($veiculo){
 		$query = "insert into entrada(hora_entrada,placa_veiculo,andar_vaga,numero_vaga) values($1,$2,$3,$4)";
 		$now = date('d-m-Y H:i:s');
-<<<<<<< HEAD
 		$vagas = getVagasLivre($veiculo);
-=======
-		$vagas = $this->getVagasLivre($veiculo);
->>>>>>> 6dd2627a2cc8fe8bb7faf9bebfa5b1aef5d0bd10
 		$randomKey = array_rand($vagas);
 		$params = Array($now, $veiculo->getPlaca(), $vagas[$randomKey]['andar'], $vagas[$randomKey]['numero']);
 		parent::daoExecuteQuery($query, $params);
