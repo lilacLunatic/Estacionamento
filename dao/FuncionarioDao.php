@@ -1,28 +1,19 @@
 <?php
 include_once "../lib/conexao.php";
 include_once "../model/Funcionario.php";
-class FuncionarioDao{
+class FuncionarioDao extends Dao{
 	public function add($funcionario){
 		$query = "insert into funcionario (login, senha, admin) values ($1, $2, $3)";
 		
 		$params = Array($funcionario->getLogin(), $funcionario->getSenha(), $funcionario->isAdmin());
-
-		$conexao = new Conexao();
-		$connection = $conexao->getConexao();
-		pg_query_params($connection, $query, $params);
-		$conexao->closeConexao();
+		parent::daoExecuteQuery($connection, $query, $params);
 	}
 
 	public function getById($id){
 		$query = "select * from funcionario where id = $1";
 		$params = Array($id);
 
-		$conexao = new Conexao();
-		$connection = $conexao->getConexao();
-		$result = pg_query_params($connection, $query, $params);
-		$conexao->closeConexao();
-
-		$funcionarioArray = pg_fetch_array($result);
+		$funcionarioArray = parent::daoFetchArray($query, $params);
 
 		$funcionario = new Funcionario(
 			$funcionarioArray['login'],
@@ -37,12 +28,7 @@ class FuncionarioDao{
 		$query = "select * from funcionario where login = $1";
 		$params = Array($login);
 
-		$conexao = new Conexao();
-		$connection = $conexao->getConexao();
-		$result = pg_query_params($connection, $query, $params);
-		$conexao->closeConexao();
-
-		$funcionarioArray = pg_fetch_array($result);
+		$funcionarioArray = parent::daoFetchArray($query, $params);
 
 		$funcionario = new Funcionario(
 			$funcionarioArray['login'],
@@ -57,21 +43,17 @@ class FuncionarioDao{
 		$query = "select * from funcionario where login = $1 and senha = $2 and admin = $3";
 
 		$params = Array($login, $senha, $isAdmin ? 't' : 'f');
-		print_r($params);
-		$conexao = new Conexao();
-		$connection = $conexao->getConexao();
-		$result = pg_query_params($connection, $query, $params);
-		$conexao->closeConexao();
+		//print_r($params);
 
-		$funcionarioArray = pg_fetch_array($result);
+		$funcionarioArray = parent::daoFetchArray($query, $params);;
 
 		return !empty($funcionarioArray);
 	}
 }
 
-$joao = new Funcionario("joao123", "mango", true);
+/*$joao = new Funcionario("joao123", "mango", true);
 
 echo $joao->getLogin() . " " . $joao->getSenha() . " " . ($joao->isAdmin() ? 1 : 0) . "\n";
 
-(new FuncionarioDao())->add($joao);
+(new FuncionarioDao())->add($joao);*/
 ?>
