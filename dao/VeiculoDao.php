@@ -59,7 +59,7 @@ class VeiculoDao extends Dao{
 	public function entradaVeiculo($veiculo){
 		$query = "insert into entrada(hora_entrada,placa_veiculo,andar_vaga,numero_vaga) values($1,$2,$3,$4)";
 		$now = date('d-m-Y H:i:s');
-		$vagas = getVagasLivre($veiculo);
+		$vagas = $this->getVagasLivre($veiculo);
 		$randomKey = array_rand($vagas);
 		$params = Array($now, $veiculo->getPlaca(), $vagas[$randomKey]['andar'], $vagas[$randomKey]['numero']);
 		parent::daoExecuteQuery($query, $params);
