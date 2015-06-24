@@ -1,6 +1,6 @@
 <?php
-include_once "../lib/conexao.php";
 include_once "../model/Funcionario.php";
+include_once "Dao.php";
 class FuncionarioDao extends Dao{
 	public function add($funcionario){
 		$query = "insert into funcionario (login, senha, admin) values ($1, $2, $3)";
