@@ -6,7 +6,7 @@
     include "../dao/VeiculoDao.php";
 
     $tpl = new Template("../view/cadastroVeiculos.html");
-    $veiculoDap = new VeiculoDao();
+    $veiculoDao = new VeiculoDao();
 
     $tipos = $veiculoDao->getTipos();
     foreach($tipos as $t){
