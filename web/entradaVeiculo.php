@@ -5,7 +5,7 @@
 	include "../dao/VeiculoDao.php";
     $veiculoDao = new VeiculoDao();
     $veiculo = $veiculoDao->getByPlaca($_SESSION['placa']);
-    echo $veiculo->getPlaca();
+    echo $veiculo['placa'];
     if(!is_null($veiculo)){
 
         if($veiculoDao->checkEntrada($_SESSION['placa'])){
