@@ -9,9 +9,9 @@
     if(!is_null($veiculo)){
 
         if($veiculoDao->checkEntrada($_SESSION['placa'])){
-            //logica do carro saindo aqui
+            $veiculoDao->saidaVeiculo($veiculo);
         }else{
-            //logica do carro entrando aqui
+            //logica do veiculo entrando aqui
         }
     
     }else{
