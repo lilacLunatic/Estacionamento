@@ -57,6 +57,23 @@ class VeiculoDao extends Dao{
 		
 	}
 
+	public function entradaVeiculo($veiculo){
+		$query = "insert into entrada(hora_entrada,placa_veiculo,andar_vaga,numero_vaga) values(?,?,?,?)";
+		$now = date('d/m/Y H:i:s');
+		$vagas = getVagasLivre($veiculo);
+		$randomKey = array_rand($vagas);
+		$params = Array($now, $veiculo['placa'], $vagas[$randomKey]['andar'], $vagas[$randomKey]['numero']);
+		parent::daoExecuteQuery($query, $params);		
+	}
+
+	public function getVagasLivre($veiculo){
+		$query = "select * from vaga
+				where andar not in (select andar_vaga from entrada where hora_saida is null) and numero not in (select numero_vaga from entrada where hora_saida is null)
+				and tipo_vaga = ?";
+		$params = Array($veiculo['tipo']);
+		return parent::daoFetchAll($query, $params);
+	}
+
 }
 /*
 $joao = new Funcionario("joao123", "mango", true);
