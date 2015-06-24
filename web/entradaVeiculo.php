@@ -1,17 +1,20 @@
 <?php 
 	session_start();
 	$_SESSION['placa'] = $_POST['placa'];
-	echo $_SESSION['placa'];
+	//echo $_SESSION['placa'];
 	include "../dao/VeiculoDao.php";
     $veiculoDao = new VeiculoDao();
     $veiculo = $veiculoDao->getByPlaca($_SESSION['placa']);
-    echo $veiculo->getPlaca();
+    //echo $veiculo->getPlaca();
     if(!is_null($veiculo)){
 
         if($veiculoDao->checaEntrada($_SESSION['placa'])){
-            $veiculoDao->saidaVeiculo($veiculo);
+            //$veiculoDao->saidaVeiculo($veiculo);
         }else{
-            $veiculoDao->entradaVeiculo($veiculo);
+            $now = date('d/m/Y H:i:s');
+            echo $now;
+            //$veiculoDao->entradaVeiculo($veiculo);
+
         }
     
     }else{
