@@ -62,7 +62,7 @@ class VeiculoDao extends Dao{
 		$now = date('d/m/Y H:i:s');
 		$vagas = getVagasLivre($veiculo);
 		$randomKey = array_rand($vagas);
-		$params = Array($now, $veiculo['placa'], $vagas[$randomKey]['andar'], $vagas[$randomKey]['numero']);
+		$params = Array($now, $veiculo->getPlaca(), $vagas[$randomKey]['andar'], $vagas[$randomKey]['numero']);
 		parent::daoExecuteQuery($query, $params);
 	}
 
@@ -70,7 +70,8 @@ class VeiculoDao extends Dao{
 		$query = "select * from vaga
 				where andar not in (select andar_vaga from entrada where hora_saida is null) and numero not in (select numero_vaga from entrada where hora_saida is null)
 				and tipo_vaga = $1";
-		$params = Array($veiculo['tipo']);
+		$params = Array($veiculo->getTipo()//->getId()
+			);
 		return parent::daoFetchAll($query, $params);
 	}
 
