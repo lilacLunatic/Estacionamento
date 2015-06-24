@@ -11,7 +11,12 @@ if($fDao->autentica($login, $senha, $admin)){
 	session_start();
 	$_SESSION['login'] = $login;
 	$_SESSION['admin'] = $admin;
-	header('location: ../view/menu.html');
+	if($_SESSION['admin']){
+		//header('location: menuAdmin.php');
+	}else{
+		header('location: ../view/menu.html');
+	}
+
 }else{
 	header('location: ../view/index.html');
 }
