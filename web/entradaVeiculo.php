@@ -11,7 +11,7 @@
         if($veiculoDao->checaEntrada($_SESSION['placa'])){
             $veiculoDao->saidaVeiculo($veiculo);
         }else{
-            //logica do veiculo entrando aqui
+            $veiculoDao->entradaVeiculo($veiculo);
         }
     
     }else{
