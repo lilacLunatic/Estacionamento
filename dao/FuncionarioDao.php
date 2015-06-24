@@ -43,10 +43,10 @@ class FuncionarioDao extends Dao{
 		$query = "select * from funcionario where login = $1 and senha = $2 and admin = $3";
 
 		$params = Array($login, $senha, $isAdmin ? 't' : 'f');
-		//print_r($params);
+		print_r($params);
 
 		$funcionarioArray = parent::daoFetchArray($query, $params);;
-
+		print_r($funcionarioArray);
 		return !empty($funcionarioArray);
 	}
 }

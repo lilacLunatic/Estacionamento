@@ -5,9 +5,9 @@ class Dao{
 		$conexao = new Conexao();
 		$connection = $conexao->getConexao();
 		if($params){
-			$result = pg_query_params($conexao, $query, $params);
+			$result = pg_query_params($connection, $query, $params);
 		}else{
-			$result = pg_query($conexao, $query);
+			$result = pg_query($connection, $query);
 		}
 		$conexao->closeConexao();
 
@@ -18,9 +18,9 @@ class Dao{
 		$conexao = new Conexao();
 		$connection = $conexao->getConexao();
 		if($params){
-			$result = pg_query_params($conexao, $query, $params);
+			$result = pg_query_params($connection, $query, $params);
 		}else{
-			$result = pg_query($conexao, $query);
+			$result = pg_query($connection, $query);
 		}
 		$conexao->closeConexao();
 
@@ -31,9 +31,9 @@ class Dao{
 		$conexao = new Conexao();
 		$connection = $conexao->getConexao();
 		if($params){
-			pg_query_params($conexao, $query, $params);
+			pg_query_params($connection, $query, $params);
 		}else{
-			pg_query($conexao, $query);
+			pg_query($connection, $query);
 		}
 	}
 }
