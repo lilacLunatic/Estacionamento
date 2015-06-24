@@ -6,9 +6,9 @@
     include "../dao/VeiculoDao.php";
 
     $tpl = new Template("../view/cadastroVeiculos.html");
-    $veiculo = new VeiculoDao();
+    $veiculoDap = new VeiculoDao();
 
-    $tipos = $veiculo->getTipos();
+    $tipos = $veiculoDao->getTipos();
     foreach($tipos as $t){
         $tpl->OPTION = $t['id'];
         $tpl->OPTION_NAME = $t['nome'];
