@@ -11,8 +11,7 @@
         if($veiculoDao->checaEntrada($_SESSION['placa'])){
             //$veiculoDao->saidaVeiculo($veiculo);
         }else{
-            $now = date('d/m/Y H:i:s');
-            echo $now;
+            
             //$veiculoDao->entradaVeiculo($veiculo);
 
         }
