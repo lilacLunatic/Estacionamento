@@ -41,7 +41,7 @@ class VeiculoDao extends Dao{
 		//$now = date('d/m/Y H:i:s');
 		$params = Array($placa);
 		$result = parent::daoFetchAll($query, $params);
-		if(is_null($result)){
+		if(is_null($result) || empty($result)){
 			return false;
 		}else{
 			return true;
@@ -50,7 +50,7 @@ class VeiculoDao extends Dao{
 
 	public function saidaVeiculo($veiculo){
 		$query = "update entrada set hora_saida = $1 where placa_veiculo = $2 and hora_saida is null";
-		$now = date('d/m/Y H:i:s');
+		$now = date('d-m-Y H:i:s');
 		$params = Array($now, $veiculo->getPlaca());
 		parent::daoExecuteQuery($query, $params);
 		
