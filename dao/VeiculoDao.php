@@ -29,10 +29,15 @@ class VeiculoDao extends Dao{
 			return $veiculo;
 		}
 	}
-
-
 	public function getTipos(){
 		$query = "select * from tipo";
+		return parent::daoFetchAll($query);
+	}
+
+
+	public function getPrecos(){
+		$query = "select preco.id, preco.valor, tipo.nome from preco
+					join tipo on preco.tipo = tipo.id";
 		return parent::daoFetchAll($query);
 	}
 
@@ -49,8 +54,9 @@ class VeiculoDao extends Dao{
 	}
 
 	public function getEntradasAtuais(){
-		$query = "select entrada.*, veiculo.tipo from entrada
+		$query = "select entrada.*, tipo.nome from entrada
 					join veiculo on veiculo.placa = entrada.placa_veiculo
+					join tipo on veiculo.tipo = tipo.id
 				 	where hora_saida is null";
 		return parent::daoFetchAll($query);
 	}
@@ -113,8 +119,9 @@ class VeiculoDao extends Dao{
 		return parent::daoFetchAll($query, $params);
 	}
 	public function getVagasLivres(){
-		$query = "select * from vaga
-				where cast(andar as varchar) || cast(numero as varchar) not in (select cast(andar_vaga as varchar) || cast(numero_vaga as varchar) from entrada where hora_saida is null) ";	
+		$query = "select vaga.*, tipo.nome from vaga
+					join tipo on tipo.id = vaga.tipo_vaga
+					where cast(andar as varchar) || cast(numero as varchar) not in (select cast(andar_vaga as varchar) || cast(numero_vaga as varchar) from entrada where hora_saida is null)";
 		return parent::daoFetchAll($query);
 	}
 

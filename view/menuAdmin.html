@@ -8,22 +8,46 @@
 	</head>
 
 	<body>
-		<table>
-		<!-- BEGIN BLOCK_TIPOS_VAGA -->
+
+		<script>
+		    function submitForm(id){
+		        var input = id.parentElement.parentElement.getElementsByTagName("input")[0].value;
+		        //Retrieving value of specific rows
+		        document.getElementById("hiddenValue").value = input;
+		        //Submits the form with given id.
+		        document.getElementById("formId").submit();
+		    }
+		</script>
+
+		<form action="../web/alteraPreco.php" id="formId">
+			<input type="hidden" name="preco" id="hiddenValue" />
+		</form>
+		<table class="table">
+		<!-- BEGIN BLOCK_PRECOS -->
 			<tr>
 				<td>{NOME_VAGA}</td>
 				<td>
-					<input type="text" value="{VALOR_VAGA}"/>
+					<input type="text" value="{VALOR_VAGA}" name="valor"/>
+					<input type="hidden" value="{ID_PRECO}" name="id"/>
 				</td>
+				<td><button type="submit" onclick="submitForm(this)">Alterar preco</button></td>
 			</tr>
-		<!-- END BLOCK_TIPOS_VAGA -->
-		<tr>
-			<td colspan="2">
-				<a href="#">
-					<button>Adicionar novo</button>
-				</a>
-			</td>
-		</tr>
+		<!-- END BLOCK_PRECOS -->
+		</table>
+		<br>
+		<table class="table">
+			<tr>
+				<th>Numero da vaga</th>
+				<th>Andar da vaga</th>
+				<th>Tipo de veiculo para a vaga</th>
+			</tr>
+			<!-- BEGIN BLOCK_VAGAS -->
+  				<tr>
+  					<td>{NUMERO_VAGA}</td>
+  					<td>{ANDAR_VAGA}</td>
+  					<td>{TIPO_VAGA}</td>
+  				</tr>
+  			<!-- END BLOCK_VAGAS -->
 		</table>
 	</body>
 </html>

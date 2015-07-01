@@ -1,23 +1,28 @@
 <?php
 	require_once("../lib/Template.php");
 	use raelgc\view\Template;
+	include "../dao/VeiculoDao.php";
 
 	$tpl = new Template("../view/menuAdmin.html");
-
-	//TODO: chamar o DAO
-	$tabela_precos = Array(
-		Array('nome'=>"moto", "valor"=>4.00),
-		Array('nome'=>"carro", "valor"=>5.00),
-		Array('nome'=>"utilitario", "valor"=>7.00),
-		Array('nome'=>"pernoite", "valor"=>18.00),
-		Array('nome'=>"diaria", "valor"=>25.00),
-		);
+    $veiculoDao = new VeiculoDao();
+	
+	$tabela_precos = $veiculoDao->getPrecos();
 
 	foreach ($tabela_precos as $item){
 		$tpl->NOME_VAGA = $item['nome'];
 		$tpl->VALOR_VAGA = $item['valor'];
-		$tpl->block("BLOCK_TIPOS_VAGA"); 
+		$tpl->ID_PRECO = $item['id'];
+		$tpl->block("BLOCK_PRECOS"); 
 	}
+
+	$vagas = $veiculoDao->getVagasLivres();
+
+    foreach($vagas as $vaga){
+        $tpl->ANDAR_VAGA= $vaga['andar'];
+        $tpl->NUMERO_VAGA = $vaga['numero'];
+        $tpl->TIPO_VAGA = $vaga['nome'];
+        $tpl->block("BLOCK_VAGAS");
+    }
 
 	$tpl->show();
 ?>

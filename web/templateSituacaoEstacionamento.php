@@ -8,11 +8,11 @@
     $veiculoDao = new VeiculoDao();
     
     $vagas = $veiculoDao->getVagasLivres();
-    print_r($vagas);
+
     foreach($vagas as $vaga){
         $tpl->ANDAR_VAGA= $vaga['andar'];
         $tpl->NUMERO_VAGA = $vaga['numero'];
-        $tpl->TIPO_VAGA = $vaga['tipo_vaga'];
+        $tpl->TIPO_VAGA = $vaga['nome'];
         $tpl->block("BLOCK_VAGAS");
     }
 
@@ -22,7 +22,7 @@
         $tpl->ANDAR_ENTRADA = $entrada['andar_vaga'];
         $tpl->NUMERO_ENTRADA = $entrada['numero_vaga'];
         $tpl->HORA = $entrada['hora_entrada'];
-        $tpl->TIPO_VEICULO = $entrada['tipo'];
+        $tpl->TIPO_VEICULO = $entrada['nome'];
         $tpl->block("BLOCK_ESTACIONAMENTO");
     }
 
