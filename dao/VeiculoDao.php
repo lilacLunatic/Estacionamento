@@ -34,6 +34,11 @@ class VeiculoDao extends Dao{
 		$query = "select * from tipo";
 		return parent::daoFetchAll($query);
 	}
+	public function alteraPreco($id, $ valor){
+		$query = "update preco set valor = $1 where id = $2";
+		$params = Array($valor, $id);
+		parent::daoExecuteQuery($query, $params);
+	}
 
 
 	public function getPrecos(){

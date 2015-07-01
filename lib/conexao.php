@@ -5,7 +5,7 @@ class Conexao {
 	public function getConexao() {
 		try {
 			$connection_string = "host=localhost ".
-								"port=5432 ".
+								"port=5433 ".
 								"dbname=postgres ".
 								"user=postgres ".
 								"password=postgres";

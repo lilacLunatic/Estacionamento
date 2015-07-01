@@ -11,17 +11,19 @@
 
 		<script>
 		    function submitForm(id){
-		        var input = id.parentElement.parentElement.getElementsByTagName("input")[0].value;
-		        //Retrieving value of specific rows
-		        document.getElementById("hiddenValue").value = input;
-		        //Submits the form with given id.
+		        var preco = id.parentElement.parentElement.getElementsByTagName("input")[0].value;
+		        var id = id.parentElement.parentElement.getElementsByTagName("input")[1].value;
+		        document.getElementById("preco").value = preco;
+		        document.getElementById("id").value = id;
 		        document.getElementById("formId").submit();
 		    }
 		</script>
 
-		<form action="../web/alteraPreco.php" id="formId">
-			<input type="hidden" name="preco" id="hiddenValue" />
+		<form action="../web/alteraPreco.php" id="formId" method="post">
+			<input type="hidden" name="preco" id="preco" />
+			<input type="hidden" name="id" id="id" />
 		</form>
+
 		<table class="table">
 		<!-- BEGIN BLOCK_PRECOS -->
 			<tr>
