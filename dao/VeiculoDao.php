@@ -56,8 +56,24 @@ class VeiculoDao extends Dao{
 	}
 
 	public function saidaVeiculo($veiculo){
+		$entrada = $this->getEntrada($veiculo->getPlaca());
+		$hora_entrada = new DateTime($entrada[0]['hora_entrada']);
+		$now = new DateTime(date('d-m-Y H:i:s'));
+		$doze_horas_atras = new DateTime(date('d-m-Y H:i:s')); //diaria
+		$doze_horas_atras->sub(new DateInterval("PT12H"));
+		$oito_horas_atras = new DateTime(date('d-m-Y H:i:s')); //pernoite
+		$oito_horas_atras->sub(new DateInterval("PT8H"));
+
+		if ($hora_entrada < $doze_horas_atras){
+			//pegar preco da diaria
+		} else if ($hora_entrada < $oito_horas_atras){
+			//pegar preco da pernoite
+		} else{
+			//pegar preço por tipo do veiculo
+		}
+
 		$query = "update entrada set hora_saida = $1 where placa_veiculo = $2 and hora_saida is null";
-		$now = date('d-m-Y H:i:s');
+		
 		$params = Array($now, $veiculo->getPlaca());
 		parent::daoExecuteQuery($query, $params);
 		
