@@ -4,6 +4,7 @@ include_once "Dao.php";
 class VeiculoDao extends Dao{
 	public function add($veiculo){
 		$query = "insert into veiculo(placa, tipo, marca, modelo, cor) values ($1, $2, $3, $4, $5)";
+		echo 'dowdowp';
 		
 		$params = Array($veiculo->getPlaca(), $veiculo->getTipo(), $veiculo->getMarca(), $veiculo->getModelo(), $veiculo->getCor()) ;
 
