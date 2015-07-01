@@ -8,9 +8,10 @@
 
 
     if(!is_null($veiculo)){
-
+        
         if($veiculoDao->checaEntrada($placa)) {
             $veiculoDao->saidaVeiculo($veiculo);
+            header('Location: templateSaida.php');
         }else{
             if($veiculoDao->entradaVeiculo($veiculo)){
                 header('Location: templateEntrada.php');

@@ -82,6 +82,12 @@ class VeiculoDao extends Dao{
 		return parent::daoFetchAll($query, $params);
 	}
 
+	public function getUltimaSaida($placa){
+		$query = "select * from entrada where placa_veiculo = $1 order by hora_saida desc limit 1";
+		$params = Array($placa);
+		return parent::daoFetchAll($query, $params);
+	}
+
 	public function getVagasLivresPorTipo($veiculo){
 		$query = "select * from vaga
 				where andar not in (select andar_vaga from entrada where hora_saida is null) and numero not in (select numero_vaga from entrada where hora_saida is null)
