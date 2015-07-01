@@ -2,7 +2,6 @@
 class Conexao {
 	
 	private $conexao;
-	//test
 	public function getConexao() {
 		try {
 			$connection_string = "host=localhost ".
