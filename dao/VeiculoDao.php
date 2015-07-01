@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('America/Sao_Paulo');
 include_once "../model/Veiculo.php";
 include_once "Dao.php";
 class VeiculoDao extends Dao{
@@ -64,7 +65,7 @@ class VeiculoDao extends Dao{
 	public function saidaVeiculo($veiculo){
 		$entrada = $this->getEntrada($veiculo->getPlaca());
 		$hora_entrada = new DateTime($entrada[0]['hora_entrada']);
-		$now = new DateTime(date('d-m-Y H:i:s'));
+		$now = date('d-m-Y H:i:s');
 		$doze_horas_atras = new DateTime(date('d-m-Y H:i:s')); //diaria
 		$doze_horas_atras->sub(new DateInterval("PT12H"));
 		$oito_horas_atras = new DateTime(date('d-m-Y H:i:s')); //pernoite
