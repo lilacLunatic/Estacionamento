@@ -6,11 +6,16 @@
 	$modelo = $_POST['modelo'];
 	$cor = $_POST['cor'];
 	$tipo = $_POST['tipo'];
-
+	
+	session_start();
+	$_SESSION['placa'] = $placa;
 
 	$veiculo = new Veiculo($placa, $tipo, $marca, $modelo, $cor);
 	$veiculoDao = new VeiculoDao();
 
 	$veiculoDao->add($veiculo);
+
+	$veiculoDao->entradaVeiculo($veiculo);
+    header('Location: templateEntrada.php');
 
 ?>

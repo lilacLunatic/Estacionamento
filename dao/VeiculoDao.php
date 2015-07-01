@@ -66,6 +66,12 @@ class VeiculoDao extends Dao{
 		parent::daoExecuteQuery($query, $params);
 	}
 
+	public function getEntrada($placa){
+		$query = "select * from entrada where placa_veiculo = $1 and hora_saida is null";
+		$params = Array($placa);
+		return parent::daoFetchAll($query, $params);
+	}
+
 	public function getVagasLivre($veiculo){
 		$query = "select * from vaga
 				where andar not in (select andar_vaga from entrada where hora_saida is null) and numero not in (select numero_vaga from entrada where hora_saida is null)

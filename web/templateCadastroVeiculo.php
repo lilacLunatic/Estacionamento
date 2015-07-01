@@ -7,7 +7,7 @@
 
     $tpl = new Template("../view/cadastroVeiculos.html");
     $veiculoDao = new VeiculoDao();
-
+    
     $tipos = $veiculoDao->getTipos();
     foreach($tipos as $t){
         $tpl->OPTION = $t['id'];
