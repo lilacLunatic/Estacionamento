@@ -5,7 +5,10 @@
     use raelgc\view\Template;
     include "../dao/VeiculoDao.php";
 
+    session_start();
+    
     $tpl = new Template("../view/cadastroVeiculos.html");
+    $tpl->PLACA = $_SESSION['placa'];
     $veiculoDao = new VeiculoDao();
     
     $tipos = $veiculoDao->getTipos();
