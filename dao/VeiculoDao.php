@@ -33,7 +33,6 @@ class VeiculoDao extends Dao{
 
 	public function getTipos(){
 		$query = "select * from tipo";
-
 		return parent::daoFetchAll($query);
 	}
 
@@ -49,6 +48,13 @@ class VeiculoDao extends Dao{
 		}
 	}
 
+	public function getEntradasAtuais(){
+		$query = "select entrada.*, veiculo.tipo from entrada
+					join veiculo on veiculo.placa = entrada.placa_veiculo
+				 	where hora_saida is null";
+		return parent::daoFetchAll($query);
+	}
+
 	public function saidaVeiculo($veiculo){
 		$query = "update entrada set hora_saida = $1 where placa_veiculo = $2 and hora_saida is null";
 		$now = date('d-m-Y H:i:s');
@@ -60,7 +66,7 @@ class VeiculoDao extends Dao{
 	public function entradaVeiculo($veiculo){
 		$query = "insert into entrada(hora_entrada,placa_veiculo,andar_vaga,numero_vaga) values($1,$2,$3,$4)";
 		$now = date('d-m-Y H:i:s');
-		$vagas = $this->getVagasLivre($veiculo);
+		$vagas = $this->getVagasLivresPorTipo($veiculo);
 		if(empty($vagas) || is_null($vagas)){
 			return false;
 		}
@@ -76,13 +82,18 @@ class VeiculoDao extends Dao{
 		return parent::daoFetchAll($query, $params);
 	}
 
-	public function getVagasLivre($veiculo){
+	public function getVagasLivresPorTipo($veiculo){
 		$query = "select * from vaga
 				where andar not in (select andar_vaga from entrada where hora_saida is null) and numero not in (select numero_vaga from entrada where hora_saida is null)
 				and tipo_vaga = $1";
 		$params = Array($veiculo->getTipo()//->getId()
 			);
 		return parent::daoFetchAll($query, $params);
+	}
+	public function getVagasLivres(){
+		$query = "select * from vaga
+				where andar not in (select andar_vaga from entrada where hora_saida is null) and numero not in (select numero_vaga from entrada where hora_saida is null)";
+		return parent::daoFetchAll($query);
 	}
 
 }
