@@ -12,8 +12,11 @@
         if($veiculoDao->checaEntrada($placa)) {
             $veiculoDao->saidaVeiculo($veiculo);
         }else{
-            $veiculoDao->entradaVeiculo($veiculo);
-            header('Location: templateEntrada.php');
+            if($veiculoDao->entradaVeiculo($veiculo)){
+                header('Location: templateEntrada.php');
+            }else{
+                header('Location: ../view/semVagas.html');
+            }
         }
     
     }else{

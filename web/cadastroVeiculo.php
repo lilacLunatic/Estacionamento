@@ -15,7 +15,10 @@
 
 	$veiculoDao->add($veiculo);
 
-	$veiculoDao->entradaVeiculo($veiculo);
-    header('Location: templateEntrada.php');
+	if($veiculoDao->entradaVeiculo($veiculo)){
+                header('Location: templateEntrada.php');
+            }else{
+                header('Location: ../view/semVagas.html');
+    }
 
 ?>
