@@ -14,7 +14,5 @@
         $tpl->VALOR = $entrada[0]['valor'];       
     $tpl->show();
     
-    
-
 
  ?>
