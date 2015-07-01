@@ -1,0 +1,46 @@
+<html>
+<head>
+	<title>Estacionamento</title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+</head>
+<body>
+	<div class="container">
+
+		<table class="table">
+			<td>
+				<th>Placa veiculo</th>
+				<th>Andar da vaga</th>
+				<th>Numero da vaga</th>
+				<th>Hora de entrada</th>
+				<th>Tipo de veiculo</th>
+			</td>
+			<!-- BEGIN BLOCK_OPTIONS -->
+  				<td>
+  					<td>{PLACA}</td>
+  					<td>{ANDAR_ENTRADA}</td>
+  					<td>{NUMERO_ENTRADA}</td>
+  					<td>{HORA}</td>
+  					<td>{TIPO_VEICULO}</td>
+  				</td>
+  			<!-- END BLOCK_OPTIONS -->
+		</table>
+		<br>
+		Vagas disponiveis:
+		<table class="table">
+			<td>
+				<th>Numero da vaga</th>
+				<th>Andar da vaga</th>
+				<th>Tipo de veiculo para a vaga</th>
+			</td>
+			<!-- BEGIN BLOCK_OPTIONS -->
+  				<td>
+  					<td>{NUMERO_VAGA}</td>
+  					<td>{ANDAR_VAGA}</td>
+  					<td>{TIPO_VAGA}</td>
+  				</td>
+  			<!-- END BLOCK_OPTIONS -->
+		</table>
+	</div>
+</body>
+</html>
