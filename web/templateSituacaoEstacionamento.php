@@ -8,6 +8,7 @@
     $veiculoDao = new VeiculoDao();
     
     $vagas = $veiculoDao->getVagasLivres();
+    print_r($vagas);
     foreach($vagas as $vaga){
         $tpl->ANDAR_VAGA= $vaga['andar'];
         $tpl->NUMERO_VAGA = $vaga['numero'];
@@ -15,11 +16,11 @@
         $tpl->block("BLOCK_VAGAS");
     }
 
-    $entradas = $veiculoDao->getEntradas();
+    $entradas = $veiculoDao->getEntradasAtuais();
     foreach($entradas as $entrada){
         $tpl->PLACA= $entrada['placa_veiculo'];
-        $tpl->ANDAR_VAGA = $entrada['andar_vaga'];
-        $tpl->NUMERO_VAGA = $entrada['numero_vaga'];
+        $tpl->ANDAR_ENTRADA = $entrada['andar_vaga'];
+        $tpl->NUMERO_ENTRADA = $entrada['numero_vaga'];
         $tpl->HORA = $entrada['hora_entrada'];
         $tpl->TIPO_VEICULO = $entrada['tipo'];
         $tpl->block("BLOCK_ESTACIONAMENTO");

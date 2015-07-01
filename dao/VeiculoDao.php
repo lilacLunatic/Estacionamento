@@ -98,7 +98,7 @@ class VeiculoDao extends Dao{
 	}
 	public function getVagasLivres(){
 		$query = "select * from vaga
-				where andar not in (select andar_vaga from entrada where hora_saida is null) and numero not in (select numero_vaga from entrada where hora_saida is null)";
+				where cast(andar as varchar) || cast(numero as varchar) not in (select cast(andar_vaga as varchar) || cast(numero_vaga as varchar) from entrada where hora_saida is null) ";	
 		return parent::daoFetchAll($query);
 	}
 
